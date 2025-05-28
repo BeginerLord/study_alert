@@ -1,0 +1,104 @@
+{
+  "descripcion": "Visualiza y gestiona las tareas programadas para los próximos 7 días.",
+  "muestra": {
+    "tipo": "lista cronológica",
+    "camposMostrados": [
+      {
+        "id": 1,
+        "id_user": 1062957207,
+        "fecha": "2025-05-30",
+        "dia": "viernes",
+        "tipoEvento": "Evento de actividad",
+        "titulo": "Protocolo colaborativo de la unidad 4",
+        "asignatura": "INGENIERÍA DE SOFTWARE - CERETÉ - ORGANIZACION DE COMPUTADORES - F1 - 2025 - 1 - Vencimiento de Tarea",
+        "hora": "23:59",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 2,
+        "id_user": 1062957207 ,
+        "fecha": "2025-06-01",
+        "dia": "domingo",
+        "tipoEvento": "Entrega de tarea",
+        "titulo": "Informe final del proyecto",
+        "asignatura": "ANÁLISIS Y DISEÑO DE SISTEMAS - CERETÉ - F2 - 2025 - 1",
+        "hora": "22:00",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 3,
+        "id_user": 1062957207,
+        "fecha": "2025-06-03",
+        "dia": "martes",
+        "tipoEvento": "Examen parcial",
+        "titulo": "Examen Unidad 3",
+        "asignatura": "BASES DE DATOS - CERETÉ - F1 - 2025 - 1",
+        "hora": "10:00",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 4,
+        "id_user": 1062957207,
+        "fecha": "2025-06-05",
+        "dia": "jueves",
+        "tipoEvento": "Reunión",
+        "titulo": "Revisión de avances de proyecto final",
+        "asignatura": "GESTIÓN DE PROYECTOS - CERETÉ - F3 - 2025 - 1",
+        "hora": "15:30",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 5,
+        "id_user": 1062957207,
+        "fecha": "2025-06-06",
+        "dia": "viernes",
+        "tipoEvento": "Entrega de tarea",
+        "titulo": "Entrega de reporte de práctica",
+        "asignatura": "SISTEMAS OPERATIVOS - CERETÉ - F1 - 2025 - 1",
+        "hora": "20:00",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 6,
+        "id_user": 1062957207,
+        "fecha": "2025-06-07",
+        "dia": "sábado",
+        "tipoEvento": "Exposición",
+        "titulo": "Presentación del proyecto de investigación",
+        "asignatura": "INVESTIGACIÓN - CERETÉ - F2 - 2025 - 1",
+        "hora": "14:00",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 7,
+        "id_user": 1062957207,
+        "fecha": "2025-06-08",
+        "dia": "domingo",
+        "tipoEvento": "Evaluación",
+        "titulo": "Prueba corta Unidad 2",
+        "asignatura": "PROGRAMACIÓN - CERETÉ - F3 - 2025 - 1",
+        "hora": "09:00",
+        "done": false,
+        "snoozedUntil": null
+      },
+      {
+        "id": 8,
+        "id_user": 1062957207,
+        "fecha": "2025-06-09",
+        "dia": "lunes",
+        "tipoEvento": "Seminario",
+        "titulo": "Seminario de innovación tecnológica",
+        "asignatura": "TECNOLOGÍA - CERETÉ - F1 - 2025 - 1",
+        "hora": "11:00",
+        "done": false,
+        "snoozedUntil": null
+      }
+    ]
+  }
+}
