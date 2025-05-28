@@ -1,0 +1,13 @@
+{
+  "descripcion": "Notificaciones con información esencial sobre tareas y eventos.",
+  "notificaciones": [
+    {
+      "titulo": "Protocolo colaborativo de la unidad 4",
+      "prioridad": "alta",
+      "asignatura": "Algoritmos y Programación Basica",
+      "tiempoRestante": "2 días",
+      "mensaje": " Te queda poco tiempo realiza tu actividad."
+      
+    }
+  ]
+}
