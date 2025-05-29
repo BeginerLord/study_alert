@@ -1,23 +1,16 @@
-{
-  "descripcion": "Visualiza y gestiona las tareas programadas para los próximos 7 días.",
-  "muestra": {
-    "tipo": "lista cronológica",
-    "camposMostrados": [
-      {
-        "fecha": "2025-05-27"
-      },
-      {
-        "hora": "23:59"
-      },
-      {
-        "título": "Actividad Unidad 3"
-      },
-      {
-        "asignatura": "ARQUITECTURA DE SOFTWARE - CERETÉ - F1 - 2025 - 1"
-      },
-      {
-        "tipoEvento": "Entrega de tarea"
-      }
-    ]
+[
+  {
+    "fecha": "2025-05-27",
+    "hora": "23:59",
+    "titulo": "Actividad Unidad 3",
+    "asignatura": "ARQUITECTURA DE SOFTWARE - CERETÉ - F1 - 2025 - 1",
+    "tipoEvento": "Entrega de tarea"
+  },
+  {
+    "fecha": "2025-05-28",
+    "hora": "20:00",
+    "titulo": "Revisión del proyecto final",
+    "asignatura": "GESTIÓN DE PROYECTOS - CERETÉ - F3 - 2025 - 1",
+    "tipoEvento": "Reunión"
   }
-}
+]

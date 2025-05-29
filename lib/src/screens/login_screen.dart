@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:study_alert/src/screens/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
@@ -113,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(userCedula: cedula),
+          builder: (context) => DashboardScreen(userCedula: cedula),
         ),
       );
     } else {
@@ -184,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextField(
                       controller: _cedulaController,
                       decoration: InputDecoration(
-                        labelText: 'Nombre de usuario',
+                        labelText: 'Cédula',
                         labelStyle: const TextStyle(color: Colors.white),
                         border: inputBorder,
                         enabledBorder: inputBorder,
@@ -297,37 +298,4 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  final String userCedula;
-
-  const HomeScreen({super.key, required this.userCedula});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Inicio'),
-        backgroundColor: const Color(0xFF62A8EA),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const LoginScreen(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text(
-          '¡Bienvenido, usuario $userCedula!',
-          style: const TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
+ 
