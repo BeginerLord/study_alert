@@ -13,7 +13,7 @@ Widget build(BuildContext context) {
     theme: ThemeData.light(useMaterial3: true),
     darkTheme: ThemeData.dark(useMaterial3: true),
     themeMode: ThemeMode.system,
-    initialRoute: '/dashboard', // Ruta inicial
+    initialRoute: '/login', // Ruta inicial
     routes: {
      '/login': (context) => const LoginScreen(),
      '/dashboard': (context) {
