@@ -4,11 +4,24 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Permiso adicional para notificaciones en Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
 
     <application
         android:label="study_alert"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <!-- ========== Cambios para awesome_notifications ========== -->
+        <receiver android:name="com.dexterous.awesome_notifications.receivers.AwesomeNotificationReceiver" android:exported="true"/>
+
+        <!-- Meta-data opcional para el icono por defecto (si lo agregas más adelante) -->
+        <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/res_app_icon" /> -->
+        <!-- ===================================================== -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

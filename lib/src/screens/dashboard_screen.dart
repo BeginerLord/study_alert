@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_alert/src/data/data_service.dart';
-import 'package:study_alert/main.dart'; // Import showNotification
+import 'package:study_alert/main.dart' as main; // Import main.dart with an alias
 
 class DashboardScreen extends StatefulWidget {
   final String userCedula;
@@ -158,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
         // Check if the activity is within the next 24 hours
         if (difference.inHours <= 24 && difference.inMinutes > 0) {
-          showNotification(
+          await main.showNotification(
             upcomingActivity['titulo']!,
             upcomingActivity['asignatura']!,
           );
