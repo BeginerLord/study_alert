@@ -4,7 +4,7 @@ import 'package:study_alert/src/data/data_service.dart';
 class DashboardScreen extends StatefulWidget {
   final String userCedula;
 
-  const DashboardScreen({super.key, required this.userCedula});
+  const DashboardScreen({super.key, this.userCedula = ""});
 
   @override
   // ignore: library_private_types_in_public_api

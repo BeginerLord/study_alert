@@ -12,7 +12,7 @@ class BusuuColors {
   // Accent greens
   static const green500 = Color(0xFF28D052); // CTA principal
   static const green400 = Color(0xFF1FA266);
-  static const teal500  = Color(0xFF177A7B);
+  static const teal500 = Color(0xFF177A7B);
 
   // Neutrals
   static const white100 = Color(0xFFFAFBFE);
@@ -37,22 +37,20 @@ class BusuuColors {
 /// Tema listo para MaterialApp
 class BusuuTheme {
   static ThemeData get theme => ThemeData(
-        brightness: Brightness.light,
-        primaryColor: BusuuColors.blue700,
-        scaffoldBackgroundColor: BusuuColors.white100,
-        colorScheme: const ColorScheme.light().copyWith(
-          primary: BusuuColors.blue700,
-          secondary: BusuuColors.green500,
-          onPrimary: BusuuColors.pureWhite,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: BusuuColors.green500,
-            foregroundColor: BusuuColors.pureWhite,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-        ),
-      );
+    brightness: Brightness.light,
+    primaryColor: BusuuColors.blue700,
+    scaffoldBackgroundColor: BusuuColors.white100,
+    colorScheme: const ColorScheme.light().copyWith(
+      primary: BusuuColors.blue700,
+      secondary: BusuuColors.green500,
+      onPrimary: BusuuColors.pureWhite,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: BusuuColors.green500,
+        foregroundColor: BusuuColors.pureWhite,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+    ),
+  );
 }
