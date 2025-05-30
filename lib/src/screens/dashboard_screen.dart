@@ -1,6 +1,86 @@
 import 'package:flutter/material.dart';
-import 'package:study_alert/src/data/data_service.dart';
-import 'package:study_alert/main.dart' as main; // Import main.dart with an alias
+
+// Simulación del modelo Task (usa tu propia clase si la tienes separada)
+class Task {
+  final int id;
+  final String idUser;
+  final String fecha;
+  final String dia;
+  final String tipoEvento;
+  final int prioridad;
+  final String titulo;
+  final String asignatura;
+  final String hora;
+  final bool done;
+  final String? snoozedUntil;
+
+  Task({
+    required this.id,
+    required this.idUser,
+    required this.fecha,
+    required this.dia,
+    required this.tipoEvento,
+    required this.prioridad,
+    required this.titulo,
+    required this.asignatura,
+    required this.hora,
+    required this.done,
+    this.snoozedUntil,
+  });
+}
+
+// Simulación de usuario (ajusta según tu modelo)
+class User {
+  final String cedula;
+  final String name;
+  final String img;
+
+  User({
+    required this.cedula,
+    required this.name,
+    required this.img,
+  });
+}
+
+// Servicio simulado para obtener usuario y tareas (usa tu servicio real)
+class DataService {
+  User? getCurrentUser(String cedula) {
+    // Simula usuario
+    return User(cedula: cedula, name: "Ana Paula", img: "assets/user.png");
+  }
+
+  List<Task> getUserTasks(String cedula) {
+    // Simula lista de tareas
+    return [
+      Task(
+        id: 1,
+        idUser: cedula,
+        fecha: "2025-06-01",
+        dia: "domingo",
+        tipoEvento: "Entrega de tarea",
+        prioridad: 2,
+        titulo: "Informe final del proyecto",
+        asignatura: "ANÁLISIS Y DISEÑO DE SISTEMAS - CERETÉ - F2 - 2025 - 1",
+        hora: "22:00",
+        done: false,
+        snoozedUntil: null,
+      ),
+      Task(
+        id: 2,
+        idUser: cedula,
+        fecha: "2025-06-03",
+        dia: "martes",
+        tipoEvento: "Examen parcial",
+        prioridad: 1,
+        titulo: "Examen Unidad 3",
+        asignatura: "BASES DE DATOS - CERETÉ - F1 - 2025 - 1",
+        hora: "10:00",
+        done: false,
+        snoozedUntil: null,
+      ),
+    ];
+  }
+}
 
 class DashboardScreen extends StatefulWidget {
   final String userCedula;
@@ -8,7 +88,6 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key, required this.userCedula});
 
   @override
-  // ignore: library_private_types_in_public_api
   _DashboardScreenState createState() => _DashboardScreenState();
 }
 
@@ -21,174 +100,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _loadData();
-    checkAndShowNotification();
   }
 
   Future<void> _loadData() async {
-    await Future.delayed(const Duration(milliseconds: 500));
+    final dataService = DataService();
 
-    // Datos estáticos del usuario con ruta correcta sin barra inicial
-    _currentUser = User(
-      idUser: "1062957207",
-      name: "Ana Paula",
-      img: "assets/user.png", // sin "/" al inicio para AssetImage
-    );
-
-    // Datos estáticos de tareas con prioridades
-    _tasks = [
-      Task(
-        id: 1,
-        idUser: "1062957207",
-        fecha: "2025-05-30",
-        dia: "viernes",
-        tipoEvento: "Evento de actividad",
-        prioridad: 5,
-        titulo: "Protocolo colaborativo de la unidad 4",
-        asignatura: "INGENIERÍA DE SOFTWARE - CERETÉ - ORGANIZACION DE COMPUTADORES - F1 - 2025 - 1",
-        hora: "23:59",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 2,
-        idUser: "1062957207",
-        fecha: "2025-06-01",
-        dia: "domingo",
-        tipoEvento: "Entrega de tarea",
-        prioridad: 2,
-        titulo: "Informe final del proyecto",
-        asignatura: "ANÁLISIS Y DISEÑO DE SISTEMAS - CERETÉ - F2 - 2025 - 1",
-        hora: "22:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 3,
-        idUser: "1062957207",
-        fecha: "2025-06-03",
-        dia: "martes",
-        tipoEvento: "Examen parcial",
-        prioridad: 1,
-        titulo: "Examen Unidad 3",
-        asignatura: "BASES DE DATOS - CERETÉ - F1 - 2025 - 1",
-        hora: "10:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 4,
-        idUser: "1062957207",
-        fecha: "2025-06-05",
-        dia: "jueves",
-        tipoEvento: "Reunión",
-        prioridad: 6,
-        titulo: "Revisión de avances de proyecto final",
-        asignatura: "GESTIÓN DE PROYECTOS - CERETÉ - F3 - 2025 - 1",
-        hora: "15:30",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 5,
-        idUser: "1062957207",
-        fecha: "2025-06-06",
-        dia: "viernes",
-        tipoEvento: "Entrega de tarea",
-        prioridad: 3,
-        titulo: "Entrega de reporte de práctica",
-        asignatura: "SISTEMAS OPERATIVOS - CERETÉ - F1 - 2025 - 1",
-        hora: "20:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 6,
-        idUser: "1062957207",
-        fecha: "2025-06-07",
-        dia: "sábado",
-        tipoEvento: "Exposición",
-        prioridad: 4,
-        titulo: "Presentación del proyecto de investigación",
-        asignatura: "INVESTIGACIÓN - CERETÉ - F2 - 2025 - 1",
-        hora: "14:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 7,
-        idUser: "1062957207",
-        fecha: "2025-06-08",
-        dia: "domingo",
-        tipoEvento: "Evaluación",
-        prioridad: 7,
-        titulo: "Prueba corta Unidad 2",
-        asignatura: "PROGRAMACIÓN - CERETÉ - F3 - 2025 - 1",
-        hora: "09:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-      Task(
-        id: 8,
-        idUser: "1062957207",
-        fecha: "2025-06-09",
-        dia: "lunes",
-        tipoEvento: "Seminario",
-        prioridad: 4,
-        titulo: "Seminario de innovación tecnológica",
-        asignatura: "TECNOLOGÍA - CERETÉ - F1 - 2025 - 1",
-        hora: "11:00",
-        done: false,
-        snoozedUntil: null,
-      ),
-    ];
+    _currentUser = dataService.getCurrentUser(widget.userCedula);
+    _tasks = dataService.getUserTasks(widget.userCedula);
 
     setState(() {
       _isLoading = false;
     });
   }
-
-Future<void> checkAndShowNotification() async {
-  // Obtener la tarea de mayor prioridad (prioridad más baja numéricamente)
-  final priorityTasks = _getTasksByPriority();
-  
-  if (priorityTasks.isNotEmpty) {
-    try {
-      // Tomar la tarea más importante (primera en la lista ordenada)
-      final task = priorityTasks[0];
-      
-      // Convertir fecha a DateTime para calcular si está dentro de las próximas 24 horas
-      final taskDate = DateTime.parse('${task.fecha} ${task.hora}');
-      final now = DateTime.now();
-      final difference = taskDate.difference(now);
-      
-      // Verificar si está dentro del rango de alerta (24 horas)
-      if (difference.inHours <= 24 && difference.inMinutes > 0) {
-        // Crear una descripción más informativa para la notificación
-        String body = "${task.asignatura.split(' - ')[0]} - ${task.tipoEvento}\n${task.dia}, ${task.fecha.substring(5)} a las ${task.hora}";
-        
-        // Usar la función de notificación programada con 30 segundos
-        await main.showScheduledNotification(
-          task.titulo,
-          body,
-          delaySeconds: 30  // Actualizado a 30 segundos
-        );
-        
-        // Mostrar feedback al usuario
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Notificación programada para los próximos 30 segundos'),
-              duration: Duration(seconds: 3),
-              backgroundColor: Color(0xFF286BF4),
-            )
-          );
-        }
-      }
-    } catch (e) {
-      print("Error al programar notificación: $e");
-    }
-  }
-}
 
   List<Task> _getTasksByPriority() {
     final tasksCopy = _tasks.where((task) => !task.done).toList();
@@ -224,27 +147,13 @@ Future<void> checkAndShowNotification() async {
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF4568DC), Color(0xFF3F5EFB)], // Nuevos colores azules
+          colors: [Color(0xFF4568DC), Color(0xFF3F5EFB)],
         ),
       ),
       child: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              strokeWidth: 3,
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Cargando tu dashboard...',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ],
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+          strokeWidth: 3,
         ),
       ),
     );
@@ -263,7 +172,7 @@ Future<void> checkAndShowNotification() async {
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-              colors: [Color(0xFF4568DC), Color(0xFF3F5EFB)], // Nuevos colores azules
+              colors: [Color(0xFF4568DC), Color(0xFF3F5EFB)],
             ),
           ),
           child: SafeArea(
@@ -289,7 +198,8 @@ Future<void> checkAndShowNotification() async {
                     child: CircleAvatar(
                       radius: 37,
                       backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(_currentUser?.img ?? 'assets/user.png'),
+                      backgroundImage:
+                          AssetImage(_currentUser?.img ?? 'assets/user.png'),
                     ),
                   ),
                   const SizedBox(height: 15),
@@ -394,7 +304,8 @@ Future<void> checkAndShowNotification() async {
     );
   }
 
-  Widget _buildStatCard(String title, String value, IconData icon, Color color, Color bgColor) {
+  Widget _buildStatCard(
+      String title, String value, IconData icon, Color color, Color bgColor) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15),
       decoration: BoxDecoration(
@@ -550,40 +461,39 @@ class TaskCard extends StatelessWidget {
     required this.priorityIndex,
   });
 
-Color _getPriorityColor() {
-  switch (priorityIndex) {
-    case 1:
-    case 2:
-    case 3:
-      return const Color(0xFFEA580C); // Naranja/Rojo - Alta
-    case 4:
-    case 5:
-      return const Color(0xFFCA8A04); // Amarillo - Media
-    case 6:
-    case 7:
-      return const Color(0xFF059669); // Verde - Baja
-    default:
-      return const Color(0xFF6B7280); // Gris - Sin prioridad
+  Color _getPriorityColor() {
+    switch (priorityIndex) {
+      case 1:
+      case 2:
+      case 3:
+        return const Color(0xFFEA580C);
+      case 4:
+      case 5:
+        return const Color(0xFFCA8A04);
+      case 6:
+      case 7:
+        return const Color(0xFF059669);
+      default:
+        return const Color(0xFF6B7280);
+    }
   }
-}
 
-
-Color _getPriorityBgColor() {
-  switch (priorityIndex) {
-    case 1:
-    case 2:
-    case 3:
-      return const Color(0xFFFEE2E2); // Rojo claro - Alta
-    case 4:
-    case 5:
-      return const Color(0xFFFEF3C7); // Amarillo claro - Media
-    case 6:
-    case 7:
-      return const Color(0xFFDCFCE7); // Verde claro - Baja
-    default:
-      return const Color(0xFFF3F4F6); // Color por defecto
+  Color _getPriorityBgColor() {
+    switch (priorityIndex) {
+      case 1:
+      case 2:
+      case 3:
+        return const Color(0xFFFEE2E2);
+      case 4:
+      case 5:
+        return const Color(0xFFFEF3C7);
+      case 6:
+      case 7:
+        return const Color(0xFFDCFCE7);
+      default:
+        return const Color(0xFFF3F4F6);
+    }
   }
-}
 
   IconData _getEventIcon() {
     switch (task.tipoEvento.toLowerCase()) {
@@ -605,23 +515,22 @@ Color _getPriorityBgColor() {
     }
   }
 
-String _getPriorityText() {
-  switch (priorityIndex) {
-    case 1:
-    case 2:
-    case 3:
-      return 'Alta';
-    case 4:
-    case 5:
-      return 'Media';
-    case 6:
-    case 7:
-      return 'Baja';
-    default:
-      return 'Sin prioridad';
+  String _getPriorityText() {
+    switch (priorityIndex) {
+      case 1:
+      case 2:
+      case 3:
+        return 'Alta';
+      case 4:
+      case 5:
+        return 'Media';
+      case 6:
+      case 7:
+        return 'Baja';
+      default:
+        return 'Sin prioridad';
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -635,7 +544,7 @@ String _getPriorityText() {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha(0x10),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -643,15 +552,14 @@ String _getPriorityText() {
       ),
       child: Stack(
         children: [
-          // Contenido principal de la tarjeta
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Etiqueta de prioridad
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: priorityBgColor,
                     borderRadius: BorderRadius.circular(8),
@@ -666,7 +574,6 @@ String _getPriorityText() {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // Icono del tipo de evento
                 Container(
                   width: 28,
                   height: 28,
@@ -681,7 +588,6 @@ String _getPriorityText() {
                   ),
                 ),
                 const SizedBox(width: 12),
-                // Detalles de la tarea
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -742,7 +648,6 @@ String _getPriorityText() {
               ],
             ),
           ),
-          // Indicador vertical de prioridad
           Positioned(
             top: 0,
             bottom: 0,
