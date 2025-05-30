@@ -147,25 +147,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
     });
   }
 
-  Future<void> checkAndShowNotification() async {
-    final upcomingActivity = await DataService().getUpcomingActivity();
-
-    if (upcomingActivity != null) {
-      try {
-        final activityDate = DateTime.parse(upcomingActivity['fecha']!);
-        final now = DateTime.now();
-        final difference = activityDate.difference(now);
-
-        // Check if the activity is within the next 24 hours
-        if (difference.inHours <= 24 && difference.inMinutes > 0) {
-          await main.showNotification(
-            upcomingActivity['titulo']!,
-            upcomingActivity['asignatura']!,
+Future<void> checkAndShowNotification() async {
+  // Obtener la tarea de mayor prioridad (prioridad más baja numéricamente)
+  final priorityTasks = _getTasksByPriority();
+  
+  if (priorityTasks.isNotEmpty) {
+    try {
+      // Tomar la tarea más importante (primera en la lista ordenada)
+      final task = priorityTasks[0];
+      
+      // Convertir fecha a DateTime para calcular si está dentro de las próximas 24 horas
+      final taskDate = DateTime.parse('${task.fecha} ${task.hora}');
+      final now = DateTime.now();
+      final difference = taskDate.difference(now);
+      
+      // Verificar si está dentro del rango de alerta (24 horas)
+      if (difference.inHours <= 24 && difference.inMinutes > 0) {
+        // Crear una descripción más informativa para la notificación
+        String body = "${task.asignatura.split(' - ')[0]} - ${task.tipoEvento}\n${task.dia}, ${task.fecha.substring(5)} a las ${task.hora}";
+        
+        // Usar la función de notificación programada con 30 segundos
+        await main.showScheduledNotification(
+          task.titulo,
+          body,
+          delaySeconds: 30  // Actualizado a 30 segundos
+        );
+        
+        // Mostrar feedback al usuario
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Notificación programada para los próximos 30 segundos'),
+              duration: Duration(seconds: 3),
+              backgroundColor: Color(0xFF286BF4),
+            )
           );
         }
-      } catch (e) {}
+      }
+    } catch (e) {
+      print("Error al programar notificación: $e");
     }
   }
+}
 
   List<Task> _getTasksByPriority() {
     final tasksCopy = _tasks.where((task) => !task.done).toList();
@@ -527,31 +550,40 @@ class TaskCard extends StatelessWidget {
     required this.priorityIndex,
   });
 
-  Color _getPriorityColor() {
-    switch (priorityIndex) {
-      case 1:
-        return const Color(0xFFEA580C); // Naranja - Alta
-      case 2:
-        return const Color(0xFFCA8A04); // Amarillo - Media
-      case 3:
-        return const Color(0xFF059669); // Verde - Baja
-      default:
-        return const Color(0xFF6B7280); // Gris - Sin prioridad
-    }
+Color _getPriorityColor() {
+  switch (priorityIndex) {
+    case 1:
+    case 2:
+    case 3:
+      return const Color(0xFFEA580C); // Naranja/Rojo - Alta
+    case 4:
+    case 5:
+      return const Color(0xFFCA8A04); // Amarillo - Media
+    case 6:
+    case 7:
+      return const Color(0xFF059669); // Verde - Baja
+    default:
+      return const Color(0xFF6B7280); // Gris - Sin prioridad
   }
+}
 
-  Color _getPriorityBgColor() {
-    switch (priorityIndex) {
-      case 1:
-        return const Color(0xFFFEE2E2); // Rojo claro
-      case 2:
-        return const Color(0xFFFED7AA); // Naranja claro
-      case 3:
-        return const Color(0xFFFEF3C7); // Amarillo claro
-      default:
-        return const Color(0xFFF3F4F6); // Color por defecto
-    }
+
+Color _getPriorityBgColor() {
+  switch (priorityIndex) {
+    case 1:
+    case 2:
+    case 3:
+      return const Color(0xFFFEE2E2); // Rojo claro - Alta
+    case 4:
+    case 5:
+      return const Color(0xFFFEF3C7); // Amarillo claro - Media
+    case 6:
+    case 7:
+      return const Color(0xFFDCFCE7); // Verde claro - Baja
+    default:
+      return const Color(0xFFF3F4F6); // Color por defecto
   }
+}
 
   IconData _getEventIcon() {
     switch (task.tipoEvento.toLowerCase()) {
@@ -573,26 +605,23 @@ class TaskCard extends StatelessWidget {
     }
   }
 
-  String _getPriorityText() {
-    switch (priorityIndex) {
-      case 1:
-        return 'Crítica';
-      case 2:
-        return 'Alta';
-      case 3:
-        return 'Media-Alta';
-      case 4:
-        return 'Media';
-      case 5:
-        return 'Media-Baja';
-      case 6:
-        return 'Baja';
-      case 7:
-        return 'Muy Baja';
-      default:
-        return 'Sin prioridad';
-    }
+String _getPriorityText() {
+  switch (priorityIndex) {
+    case 1:
+    case 2:
+    case 3:
+      return 'Alta';
+    case 4:
+    case 5:
+      return 'Media';
+    case 6:
+    case 7:
+      return 'Baja';
+    default:
+      return 'Sin prioridad';
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
