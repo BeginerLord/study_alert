@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutter/services.dart' show rootBundle;
+
 // Servicio para manejar los datos simulados
 class DataService {
   // Datos simulados de usuarios
@@ -159,6 +162,31 @@ class DataService {
   // Obtener eventos del planner
   List<PlannerEvent> getPlannerEvents() {
     return _plannerData.map((e) => PlannerEvent.fromJson(e)).toList();
+  }
+
+  // Obtener la proxima actividad
+  Future<Map<String, dynamic>?> getUpcomingActivity() async {
+    try {
+      final String response = await rootBundle.loadString('lib/src/data/tasks.json');
+      final List<dynamic> data = json.decode(response);
+      
+      if (data.isEmpty) {
+        return null;
+      }
+
+      // Convertir a DateTime para comparar
+      data.sort((a, b) {
+        final dateA = DateTime.parse(a['fecha']);
+        final dateB = DateTime.parse(b['fecha']);
+        return dateA.compareTo(dateB);
+      });
+
+      // Devolver la actividad con la fecha más cercana y futura
+      return data.firstWhere((activity) => DateTime.parse(activity['fecha']).isAfter(DateTime.now()), orElse: () => null);
+
+    } catch (e) {
+      return null;
+    }
   }
 }
 

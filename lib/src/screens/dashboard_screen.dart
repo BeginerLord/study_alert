@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:study_alert/src/data/data_service.dart';
+import 'package:study_alert/main.dart'; // Import showNotification
 
 class DashboardScreen extends StatefulWidget {
   final String userCedula;
@@ -20,6 +21,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   void initState() {
     super.initState();
     _loadData();
+    checkAndShowNotification();
   }
 
   Future<void> _loadData() async {
@@ -143,6 +145,26 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Future<void> checkAndShowNotification() async {
+    final upcomingActivity = await DataService().getUpcomingActivity();
+
+    if (upcomingActivity != null) {
+      try {
+        final activityDate = DateTime.parse(upcomingActivity['fecha']!);
+        final now = DateTime.now();
+        final difference = activityDate.difference(now);
+
+        // Check if the activity is within the next 24 hours
+        if (difference.inHours <= 24 && difference.inMinutes > 0) {
+          showNotification(
+            upcomingActivity['titulo']!,
+            upcomingActivity['asignatura']!,
+          );
+        }
+      } catch (e) {}
+    }
   }
 
   List<Task> _getTasksByPriority() {
@@ -508,19 +530,11 @@ class TaskCard extends StatelessWidget {
   Color _getPriorityColor() {
     switch (priorityIndex) {
       case 1:
-        return const Color(0xFFDC2626); // Rojo intenso - Crítica
-      case 2:
         return const Color(0xFFEA580C); // Naranja - Alta
-      case 3:
-        return const Color(0xFFD97706); // Amarillo oscuro - Media-Alta
-      case 4:
+      case 2:
         return const Color(0xFFCA8A04); // Amarillo - Media
-      case 5:
-        return const Color(0xFF65A30D); // Verde amarillento - Media-Baja
-      case 6:
+      case 3:
         return const Color(0xFF059669); // Verde - Baja
-      case 7:
-        return const Color(0xFF0891B2); // Azul - Muy Baja
       default:
         return const Color(0xFF6B7280); // Gris - Sin prioridad
     }

@@ -56,3 +56,16 @@ class BusuuTheme {
         ),
       );
 }
+
+Color getPriorityColor(int? priorityIndex) {
+  switch (priorityIndex) {
+    case 1: // Alta prioridad
+      return const Color(0xFFEA580C); // Orange
+    case 2: // Media prioridad
+      return const Color(0xFFCA8A04); // Yellow
+    case 3: // Baja prioridad
+      return const Color(0xFF059669); // Green
+    default: // Sin prioridad o prioridad desconocida
+      return const Color(0xFF6B7280); // Gray
+  }
+}
