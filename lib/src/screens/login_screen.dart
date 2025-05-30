@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:study_alert/src/components/MainTabsPage.dart';
 import 'package:study_alert/src/screens/dashboard_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -114,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => DashboardScreen(userCedula: cedula),
+          builder: (context) => MainTabsPage(),
         ),
       );
     } else {
